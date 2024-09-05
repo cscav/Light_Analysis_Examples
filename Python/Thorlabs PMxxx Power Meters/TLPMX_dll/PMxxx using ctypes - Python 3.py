@@ -13,7 +13,7 @@ import json
 import paho.mqtt.publish as publish 
 mqtt_topic = "power meter"
 mqtt_broker_address = os.getenv('ADDRESS')
-credentials = {'username': os.getenv('USERNAME'), 'password': os.getenv('PASSWORD')}
+credentials = {'username': os.getenv('MQTT_USERNAME'), 'password': os.getenv('PASSWORD')}
 
 # Find connected power meter devices.
 tlPM = TLPMX()
