@@ -61,7 +61,7 @@ tlPM.setPowerUnit(c_int16(0),TLPM_DEFAULT_CHANNEL)
 power_measurements = []
 times = []
 count = 0
-while count < 5:
+while True:
     power =  c_double()
     tlPM.measPower(byref(power),TLPM_DEFAULT_CHANNEL)
 
