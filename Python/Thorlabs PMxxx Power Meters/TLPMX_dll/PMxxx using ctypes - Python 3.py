@@ -5,6 +5,16 @@ import time
 
 from TLPMX import TLPM_DEFAULT_CHANNEL
 
+# additions to send to homeassistant
+import os
+from dotenv import load_dotenv
+load_dotenv()
+import json
+import paho.mqtt.publish as publish 
+mqtt_Topic = "power meter"
+mqtt_broker_address = os.getenv('ADDRESS')
+credentials = {'username': os.getenv('USERNAME'), 'password': os.getenv('PASSWORD')}
+
 # Find connected power meter devices.
 tlPM = TLPMX()
 deviceCount = c_uint32()
