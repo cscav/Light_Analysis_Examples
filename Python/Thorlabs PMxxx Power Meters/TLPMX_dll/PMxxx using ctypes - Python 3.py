@@ -11,7 +11,7 @@ from dotenv import load_dotenv
 load_dotenv()
 import json
 import paho.mqtt.publish as publish 
-mqtt_Topic = "power meter"
+mqtt_topic = "power meter"
 mqtt_broker_address = os.getenv('ADDRESS')
 credentials = {'username': os.getenv('USERNAME'), 'password': os.getenv('PASSWORD')}
 
@@ -44,7 +44,7 @@ print("")
 time.sleep(2)
 
 # Set wavelength in nm.
-wavelength = c_double(532.5)
+wavelength = c_double(852)
 tlPM.setWavelength(wavelength,TLPM_DEFAULT_CHANNEL)
 
 # Enable auto-range mode.
@@ -64,6 +64,14 @@ count = 0
 while count < 5:
     power =  c_double()
     tlPM.measPower(byref(power),TLPM_DEFAULT_CHANNEL)
+
+    # send to HAOS
+    payload = {
+        "power": power.value
+    }
+    payload_json = json.dumps(payload)
+    publish.single(mqtt_topic, payload_json, hostname = mqtt_broker_address, auth = credentials)
+
     power_measurements.append(power.value)
     times.append(datetime.now())
     print(times[count], ":", power_measurements[count], "W")
